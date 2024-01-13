@@ -3,7 +3,7 @@ const app = express();
 
 app.use(express.json());
 
-const persons = [
+let persons = [
     { 
       "id": 1,
       "name": "Arto Hellas", 
@@ -30,9 +30,37 @@ app.get('/api/persons', (request, response) => {
     response.json(persons);
 });
 
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id);
+    const result = persons.find(person => person.id === id);
+
+    if (result) {
+        response.json(result);
+    } else {
+        response.status(404).end();
+    }
+
+})
+
 app.get('/info', (request, response) => {
     response.send(`Phonebook has info for ${persons.length} people <br> ${new Date()} `);
 });
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id);
+    persons = persons.filter(person => person.id !== id);
+
+    response.status(204).end();
+});
+
+app.post('/api/persons', (request, response) => {
+    const new_person = request.body
+    const new_id = Math.floor(Math.random() * 1000000000);
+    new_person.id = new_id;
+    persons.push(new_person);
+
+    response.json(new_person);
+})
 
 const PORT = 3001;
 app.listen(PORT, () => {
