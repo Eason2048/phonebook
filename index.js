@@ -54,7 +54,16 @@ app.delete('/api/persons/:id', (request, response) => {
 });
 
 app.post('/api/persons', (request, response) => {
-    const new_person = request.body
+    const new_person = request.body;
+
+    if (new_person.name === undefined || new_person.number === undefined) {
+        return response.status(400).json({ error: 'name or number is missing' });
+    }
+
+    if (persons.find(person => person.name === new_person.name)) {
+        return response.status(400).json({ error: 'name must be unique' });
+    }
+
     const new_id = Math.floor(Math.random() * 1000000000);
     new_person.id = new_id;
     persons.push(new_person);
