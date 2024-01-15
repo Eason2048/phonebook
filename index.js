@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const app = express();
 
-const PhoneBook = require('./models/phonebook');
+const PhoneBook = require('./models/Phonebook');
 
 app.use(cors())
 app.use(express.json());
