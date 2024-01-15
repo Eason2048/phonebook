@@ -13,7 +13,7 @@ morgan.token('body', function (req) {
     return JSON.stringify(req.body)
 })
 
-const PhoneBook = require('./models/phonebook')
+const PhoneBook = require('../models/phonebook')
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
